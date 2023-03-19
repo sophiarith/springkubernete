@@ -28,8 +28,8 @@ pipeline{
             steps{
                 sshagent(['jenkins-ssh-keys']) {
                     sh 'ls && pwd'
-                    sh 'scp -o StrictHostKeyChecking=no -r kubernetes dara@10.148.0.12:/home/dara'
-                    sh "ssh -o StrictHostKeyChecking=no dara@10.148.0.12 bash /home/dara/kubernetes/deploy.sh ${BUILD_NUMBER}"
+                    sh 'scp -o StrictHostKeyChecking=no -r kubernetes dara@10.148.0.11:/home/dara'
+                    sh "ssh -o StrictHostKeyChecking=no dara@10.148.0.11 bash /home/dara/kubernetes/deploy.sh ${BUILD_NUMBER}"
                 }
                 //Trigger to build other job
                 build job: 'test', parameters: [
