@@ -26,9 +26,11 @@ spec:
              mountPath: /src/main/resources/images
      volumes:
          - name: register-vol
-           nfs:
-             server: 10.148.0.11
-             path: /opt/nfs/data
+           persistentVolumeClaim:
+             claimName: my-pvc
+           #nfs:
+           #  server: 10.148.0.11
+           #  path: /opt/nfs/data
 ---
 apiVersion: v1
 kind: Service
