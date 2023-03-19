@@ -1,0 +1,12 @@
+package com.kshrd.registration.payload.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UploadImageRes {
+    private String url;
+}

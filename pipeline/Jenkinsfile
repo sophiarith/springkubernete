@@ -1,0 +1,42 @@
+pipeline{
+  agent { label 'master'}
+  tools{
+    maven '3.6.3'
+  }
+  stages{
+    stage("Build Spring Project"){
+      steps{
+        sh "mvn clean package"
+      }
+    }
+    stage("Deploy Service"){
+      steps{
+        //sh "docker compose up -d --build"
+        //https://index.docker.io/v1
+        script{
+          docker.withRegistry('', 'dockerhub-auth') {
+            def customImage = docker.build("xeng/spring-register:${BUILD_NUMBER}")
+              /* Push the container to the custom Registry */
+              customImage.push()
+          }
+        }
+        sh 'docker logout'
+      }
+    }
+    
+     stage("Deploy App"){
+            steps{
+                sshagent(['jenkins-ssh-keys']) {
+                    sh 'ls && pwd'
+                    sh 'scp -o StrictHostKeyChecking=no -r kubernetes dara@10.148.0.12:/home/dara'
+                    sh "ssh -o StrictHostKeyChecking=no dara@10.148.0.12 bash /home/dara/kubernetes/deploy.sh ${BUILD_NUMBER}"
+                }
+                //Trigger to build other job
+                build job: 'reactjs-pipeline', parameters: [
+                    string(name: 'BUILD_NUM', value: "${BUILD_NUMBER}"),
+                    booleanParam(name: 'isSingle', value: true)
+                ]
+            }
+        }
+  }
+}

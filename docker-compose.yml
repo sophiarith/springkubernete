@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  register-api:
+    container_name: "register-ui-cont"
+    build: .
+    ports:
+      - "8181:8080"
