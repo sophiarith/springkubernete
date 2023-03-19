@@ -16,8 +16,6 @@ spec:
      labels:
        app: register-app
    spec:
-     nodeSelector:
-       group: workers
      containers:
        - name: register-cont
          image: sophiarith/spring-register:$1
