@@ -20,7 +20,7 @@ spec:
        group: workers
      containers:
        - name: register-cont
-         image: xeng/spring-register:$1
+         image: sophiarith/spring-register:$1
          ports:
            - containerPort: 8080
          volumeMounts:
@@ -29,7 +29,7 @@ spec:
      volumes:
          - name: register-vol
            nfs:
-             server: 10.148.0.12
+             server: 10.148.0.11
              path: /opt/nfs/data
 ---
 apiVersion: v1
